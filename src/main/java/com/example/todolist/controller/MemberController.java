@@ -43,7 +43,20 @@ public class MemberController {
 
 
     // 탈퇴
+    @PostMapping("/withdraw")
+    public ResponseEntity<String> withdraw(@RequestBody @Valid MemberLoginDto memberLoginDto) {
+        boolean loginSuccessful = memberService.login(memberLoginDto);
 
+        if (loginSuccessful) {
+            if(memberService.withdraw(memberLoginDto) > 0){
+                return ResponseEntity.ok("탈퇴 성공");
+            } else{
+                return ResponseEntity.badRequest().body("탈퇴 실패");
+            }
+        } else {
+            return ResponseEntity.badRequest().body("로그인 실패");
+        }
+    }
 
 
 

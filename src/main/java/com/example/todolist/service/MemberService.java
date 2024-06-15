@@ -47,4 +47,9 @@ public class MemberService {
         return bCryptPwdEncoder.matches(memberLoginDto.getUserPassword(), member.getUserPassword());
 
     }
+
+    public long withdraw(MemberLoginDto memberLoginDto) {
+
+        return memberRepository.deleteByUserId(memberLoginDto.getUserId());
+    }
 }
