@@ -43,8 +43,8 @@ public class MemberService {
 
     public boolean login(MemberLoginDto memberLoginDto) {
 
-
-        return false;
+        MemberEntity member = memberRepository.getByUserId(memberLoginDto.getUserId());
+        return bCryptPwdEncoder.matches(memberLoginDto.getUserPassword(), member.getUserPassword());
 
     }
 }
