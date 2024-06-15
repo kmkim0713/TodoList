@@ -1,6 +1,7 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.dto.MemberJoinDto;
+import com.example.todolist.dto.MemberLoginDto;
 import com.example.todolist.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,23 @@ public class MemberController {
     @PostMapping("/join")
     public ResponseEntity<String> joinMember(@Valid @RequestBody MemberJoinDto memberJoinDto){
 
-        // insert into MEMBER(id, pwd, nickname) values('kmkimkmkkim', 'asdfasdf', 'GoodBoy');
-        memberService.joinMember(memberJoinDto);
+        memberService.checkIdDuplication(memberJoinDto);
 
-        return ResponseEntity.ok("회원가입 완료");
+        return ResponseEntity.ok("[ "+ memberJoinDto.getUserId() + " ] 회원가입 완료");
     }
 
 
     // 로그인
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody @Valid MemberLoginDto memberLoginDto) {
+        boolean loginSuccessful = memberService.login(memberLoginDto);
+
+        if (loginSuccessful) {
+            return ResponseEntity.ok("로그인 성공");
+        } else {
+            return ResponseEntity.badRequest().body("로그인 실패");
+        }
+    }
 
 
     // 탈퇴

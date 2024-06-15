@@ -4,6 +4,7 @@ package com.example.todolist.service;
 import com.example.todolist.config.BCryptPwdEncoder;
 import com.example.todolist.dao.MemberRepository;
 import com.example.todolist.dto.MemberJoinDto;
+import com.example.todolist.dto.MemberLoginDto;
 import com.example.todolist.entity.MemberEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +20,31 @@ public class MemberService {
         this.bCryptPwdEncoder = bCryptPwdEncoder;
     }
 
-    public void joinMember(MemberJoinDto memberJoinDto){
+    public MemberEntity join(MemberJoinDto memberJoinDto){
 
         MemberEntity member = MemberEntity.builder()
-                .id(memberJoinDto.getId())
-                .pwd(bCryptPwdEncoder.encode(memberJoinDto.getPwd()))
-                .nickname(memberJoinDto.getNickname())
+                .userId(memberJoinDto.getUserId())
+                .userPassword(bCryptPwdEncoder.encode(memberJoinDto.getUserPassword()))
+                .userNickname(memberJoinDto.getUserNickname())
                 .build();
 
-        memberRepository.save(member);
+        return memberRepository.save(member);
     }
 
+
+    public MemberEntity checkIdDuplication(MemberJoinDto memberJoinDto) {
+        // ID 중복 체크
+        if (memberRepository.existsByUserId(memberJoinDto.getUserId())) {
+            throw new RuntimeException("이미 사용중인 ID입니다.");
+        }
+
+        return join(memberJoinDto);
+    }
+
+    public boolean login(MemberLoginDto memberLoginDto) {
+
+
+        return false;
+
+    }
 }

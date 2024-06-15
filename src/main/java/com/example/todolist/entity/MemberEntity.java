@@ -16,18 +16,18 @@ public class MemberEntity {
     private Long memberId;
 
     @Column(nullable = false, length = 30)
-    private String id;
+    private String userId;
 
-    private String pwd;
+    private String userPassword;
 
     @Column(nullable = false, length = 30)
-    private String nickname;
+    private String userNickname;
 
     @Builder
-    public MemberEntity(String id, String pwd, String nickname){
-        this.id = id;
-        this.pwd = pwd;
-        this.nickname = nickname;
+    public MemberEntity(String userId, String userPassword, String userNickname){
+        this.userId = userId;
+        this.userPassword = userPassword;
+        this.userNickname = userNickname;
     }
 
 
