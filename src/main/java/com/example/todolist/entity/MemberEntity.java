@@ -18,7 +18,6 @@ public class MemberEntity {
     @Column(nullable = false, length = 30)
     private String id;
 
-    @Column(nullable = false, length = 30)
     private String pwd;
 
     @Column(nullable = false, length = 30)

@@ -2,6 +2,7 @@ package com.example.todolist.controller;
 
 import com.example.todolist.dto.MemberJoinDto;
 import com.example.todolist.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +20,9 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity<String> joinMember(@RequestBody MemberJoinDto memberJoinDto){
+    public ResponseEntity<String> joinMember(@Valid @RequestBody MemberJoinDto memberJoinDto){
 
+        // insert into MEMBER(id, pwd, nickname) values('kmkimkmkkim', 'asdfasdf', 'GoodBoy');
         memberService.joinMember(memberJoinDto);
 
         return ResponseEntity.ok("회원가입 완료");
