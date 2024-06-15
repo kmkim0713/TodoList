@@ -1,6 +1,6 @@
 package com.example.todolist.controller;
 
-import com.example.todolist.dto.JoinMemberDto;
+import com.example.todolist.dto.MemberJoinDto;
 import com.example.todolist.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,9 +19,9 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/join")
-    public ResponseEntity<String> joinMember(@RequestBody JoinMemberDto joinMemberDto){
+    public ResponseEntity<String> joinMember(@RequestBody MemberJoinDto memberJoinDto){
 
-        memberService.joinMember();
+        memberService.joinMember(memberJoinDto);
 
         return ResponseEntity.ok("회원가입 완료");
     }
