@@ -1,8 +1,6 @@
 package com.example.todolist.dto;
 
 
-import com.example.todolist.entity.UserEntity;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,13 +1,9 @@
 package com.example.todolist.service;
 
 
-import com.example.todolist.dto.TodoUpdateDto;
+import com.example.todolist.dto.*;
 import com.example.todolist.dao.UserRepository;
 import com.example.todolist.dao.TodoRepository;
-import com.example.todolist.dto.TodoLatestSearchResponseDto;
-import com.example.todolist.dto.TodoRegistDto;
-import com.example.todolist.dto.TodoLatestSearchDto;
-import com.example.todolist.dto.TodoRegistResponseDto;
 import com.example.todolist.entity.UserEntity;
 import com.example.todolist.entity.TodoEntity;
 import jakarta.transaction.Transactional;
@@ -38,7 +34,7 @@ public class TodoService {
         TodoEntity todoEntity = todoRepository.save
                 (TodoEntity.builder()
                     .content(todoRegistDto.getContent())
-                    .status(todoRegistDto.getStatus())
+                    .status("TODO")
                     .userIdx(userEntity) // 회원 정보 설정
                     .build());
 
@@ -94,7 +90,7 @@ public class TodoService {
     }
 
     @Transactional
-    public boolean updateStatus(TodoUpdateDto todoUpdateDto) {
+    public TodoUpdateResponseDto update(TodoUpdateDto todoUpdateDto) {
 
         TodoEntity todoEntity = todoRepository.findByTodoIdxAndUserIdx(todoUpdateDto.getTodoIdx(), todoUpdateDto.getUserIdx());
 
@@ -102,11 +98,20 @@ public class TodoService {
 
             if(todoEntity.validStatus(todoUpdateDto.getStatus())){
                 todoEntity.updateStatus(todoUpdateDto.getStatus());
+                todoEntity.updateContent(todoUpdateDto.getContent());
+                todoEntity.setUpdatedAt();
+
                 todoRepository.save(todoEntity);
-                return true;
+
+                return TodoUpdateResponseDto.builder()
+                        .status("success")
+                        .build();
             }
 
         }
-        return false;
+        return TodoUpdateResponseDto.builder()
+                .status("fail")
+                .build();
     }
+
 }

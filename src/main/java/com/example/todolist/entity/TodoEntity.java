@@ -81,4 +81,12 @@ public class TodoEntity {
     public void updateStatus(String status) {
         this.status = status;
     }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    public void setUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

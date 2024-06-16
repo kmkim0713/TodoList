@@ -36,17 +36,17 @@ public class TodoController {
         return ResponseEntity.ok(todoService.searchList(todoLatestSearchDto, 10));
     }
 
-    // 상태변경
+    // todo의 상태 및 내용변경
     @PostMapping("/update")
-    public ResponseEntity<String> todoUpdateStatus(@RequestBody TodoUpdateDto todoUpdateDto){
+    public ResponseEntity<TodoUpdateResponseDto> todoUpdateStatus(@RequestBody TodoUpdateDto todoUpdateDto){
 
-        if(todoService.updateStatus(todoUpdateDto)){
-            return ResponseEntity.ok("수정 완료");
+        TodoUpdateResponseDto todoUpdateResponseDto = todoService.update(todoUpdateDto);
+
+        if(todoUpdateResponseDto.getStatus().equals("success")){
+            return ResponseEntity.ok(todoUpdateResponseDto);
         }
-        return ResponseEntity.badRequest().body("수정 실패");
+        return ResponseEntity.badRequest().body(todoUpdateResponseDto);
     }
-
-
 
 
 

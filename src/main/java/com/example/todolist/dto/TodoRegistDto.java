@@ -1,6 +1,5 @@
 package com.example.todolist.dto;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,9 +10,6 @@ public class TodoRegistDto {
 
     @NotBlank
     private Long userIdx;
-
-    @NotBlank
-    private String status;
 
     @NotBlank
     private String content;

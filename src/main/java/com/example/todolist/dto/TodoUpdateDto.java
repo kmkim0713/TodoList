@@ -17,5 +17,7 @@ public class TodoUpdateDto {
     @NotBlank
     private String status;
 
+    @NotBlank
+    private String content;
 
 }
