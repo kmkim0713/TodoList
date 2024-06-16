@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 public class TodoEntity {
 
     @Id
-    @Column(name = "todo_id")
+    @Column(name = "idx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long todoId;
+    private Long todoIdx;
 
-    @OneToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private MemberEntity memberId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_idx", nullable = false)
+    private UserEntity userIdx;
 
     @Column(nullable = false, name = "status")
     private String status;
@@ -36,10 +36,10 @@ public class TodoEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public TodoEntity(String status, String content, MemberEntity memberId){
+    public TodoEntity(String status, String content, UserEntity userIdx){
         this.status = status;
         this.content = content;
-        this.memberId = memberId;
+        this.userIdx = userIdx;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

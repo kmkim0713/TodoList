@@ -10,7 +10,7 @@ import lombok.Setter;
 public class TodoRegistDto {
 
 
-    private Long memberId;
+    private Long userIdx;
 
     @NotBlank
     private String status;

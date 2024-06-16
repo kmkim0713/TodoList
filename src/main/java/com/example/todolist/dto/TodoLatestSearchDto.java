@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TodoSearchDto {
+public class TodoLatestSearchDto {
 
     @NotBlank
-    private Long todoId;
+    private Long userIdx;
 
 }

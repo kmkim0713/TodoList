@@ -7,9 +7,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberJoinDto {
+public class UserJoinDto {
 
-    private Long memberId;
 
     @NotBlank(message = "ID는 필수 입력 항목입니다.")
     @Size(max = 30, message = "ID는 30자 이하여야 합니다.")

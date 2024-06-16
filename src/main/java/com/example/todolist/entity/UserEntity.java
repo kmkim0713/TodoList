@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "MEMBER")
+@Table(name = "TODO_USER")
 @NoArgsConstructor
-public class MemberEntity {
+public class UserEntity {
 
     @Id
-    @Column(name="member_id")
+    @Column(name="user_idx")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private Long userIdx;
 
     @Column(nullable = false, length = 30, name="user_id")
     private String userId;
@@ -34,7 +34,7 @@ public class MemberEntity {
     private LocalDateTime updatedAt;
 
     @Builder
-    public MemberEntity(String userId, String userPassword, String userNickname) {
+    public UserEntity(String userId, String userPassword, String userNickname) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userNickname = userNickname;

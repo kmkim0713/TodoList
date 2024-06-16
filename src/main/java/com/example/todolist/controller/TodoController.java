@@ -1,12 +1,13 @@
 package com.example.todolist.controller;
 
 
+import com.example.todolist.dto.TodoLatestSearchResponseDto;
 import com.example.todolist.dto.TodoRegistDto;
-import com.example.todolist.dto.TodoSearchDto;
+import com.example.todolist.dto.TodoLatestSearchDto;
+import com.example.todolist.dto.TodoRegistResponseDto;
 import com.example.todolist.entity.TodoEntity;
 import com.example.todolist.service.TodoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,24 +22,17 @@ public class TodoController {
 
     // 작성
     @PostMapping("/regist")
-    public ResponseEntity<TodoEntity> todoRegist(@RequestBody TodoRegistDto todoRegistDto){
-        todoService.regist(todoRegistDto);
+    public ResponseEntity<TodoRegistResponseDto> todoRegist(@RequestBody TodoRegistDto todoRegistDto){
         return ResponseEntity.ok(todoService.regist(todoRegistDto));
-
     }
 
-    // 최근 게시물 1건건 조회
-    @PostMapping("/search")
-    public ResponseEntity<TodoEntity> todoSearch(@RequestBody TodoSearchDto todoSearchDto){
-        return ResponseEntity.ok(todoService.search(todoSearchDto));
+    // 유저의 최근 게시물 1건건 조회
+    @PostMapping("/search/latest")
+    public ResponseEntity<TodoLatestSearchResponseDto> todoSearchLatest(@RequestBody TodoLatestSearchDto todoLatestSearchDto){
+        return ResponseEntity.ok(todoService.searchLatest(todoLatestSearchDto));
     }
 
 
-    // 목록 조회
-    @PostMapping("/")
-    public ResponseEntity<TodoEntity> todoListSearch(@RequestBody TodoSearchDto todoSearchDto){
-        return ResponseEntity.ok(todoService.search(todoSearchDto));
-    }
 
 
     // 수정
