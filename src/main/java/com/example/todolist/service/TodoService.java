@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TodoService {
@@ -55,19 +56,38 @@ public class TodoService {
 
     public TodoLatestSearchResponseDto searchLatest(TodoLatestSearchDto todoLatestSearchDto) {
 
-        List<TodoEntity> todoEntity = todoRepository
-                .findByUserIdx(todoLatestSearchDto.getUserIdx(), PageRequest.of(0, 1));
+        TodoEntity todoEntity = (todoRepository
+                .findByUserIdx(todoLatestSearchDto.getUserIdx(), PageRequest.of(0, 1))).get(0);
 
         TodoLatestSearchResponseDto todoLatestSearchResponseDto =
                 TodoLatestSearchResponseDto.builder()
-                        .todoIdx(todoEntity.get(0).getTodoIdx())
-                        .userIdx(todoEntity.get(0).getUserIdx().getUserIdx())
-                        .status(todoEntity.get(0).getStatus())
-                        .content(todoEntity.get(0).getContent())
-                        .createdAt(todoEntity.get(0).getCreatedAt())
-                        .updatedAt(todoEntity.get(0).getUpdatedAt())
+                        .todoIdx(todoEntity.getTodoIdx())
+                        .userIdx(todoEntity.getUserIdx().getUserIdx())
+                        .status(todoEntity.getStatus())
+                        .content(todoEntity.getContent())
+                        .createdAt(todoEntity.getCreatedAt())
+                        .updatedAt(todoEntity.getUpdatedAt())
                         .build();
 
         return todoLatestSearchResponseDto;
+    }
+
+    public List<TodoLatestSearchResponseDto> searchList(TodoLatestSearchDto todoLatestSearchDto, int pageSize) {
+
+        List<TodoEntity> todoEntities = todoRepository
+                .findByUserIdx(todoLatestSearchDto.getUserIdx(), PageRequest.of(0, pageSize));
+
+        return todoEntities.stream().map(
+                todoEntity -> {
+                    return TodoLatestSearchResponseDto.builder()
+                            .todoIdx(todoEntity.getTodoIdx())
+                            .userIdx(todoEntity.getUserIdx().getUserIdx())
+                            .status(todoEntity.getStatus())
+                            .content(todoEntity.getContent())
+                            .createdAt(todoEntity.getCreatedAt())
+                            .updatedAt(todoEntity.getUpdatedAt())
+                            .build();
+                }).collect(Collectors.toList());
+
     }
 }
