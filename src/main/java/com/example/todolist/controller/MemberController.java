@@ -5,11 +5,11 @@ import com.example.todolist.dto.MemberLoginDto;
 import com.example.todolist.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class MemberController {
 
     private MemberService memberService;
@@ -24,7 +24,6 @@ public class MemberController {
     public ResponseEntity<String> joinMember(@Valid @RequestBody MemberJoinDto memberJoinDto){
 
         memberService.checkIdDuplication(memberJoinDto);
-
         return ResponseEntity.ok("[ "+ memberJoinDto.getUserId() + " ] 회원가입 완료");
     }
 

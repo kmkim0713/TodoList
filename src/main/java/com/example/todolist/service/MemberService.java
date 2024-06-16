@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 
-    private MemberRepository memberRepository;
-    private BCryptPwdEncoder bCryptPwdEncoder;
+    private final MemberRepository memberRepository;
+    private final BCryptPwdEncoder bCryptPwdEncoder;
 
     public MemberService(MemberRepository memberRepository, BCryptPwdEncoder bCryptPwdEncoder){
 
