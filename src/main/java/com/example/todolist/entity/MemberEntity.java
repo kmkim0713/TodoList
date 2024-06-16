@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Table(name = "MEMBER")
@@ -25,12 +27,18 @@ public class MemberEntity {
     @Column(nullable = false, length = 30, name="user_nickname")
     private String userNickname;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
     @Builder
-    public MemberEntity(String userId, String userPassword, String userNickname){
+    public MemberEntity(String userId, String userPassword, String userNickname) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userNickname = userNickname;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
-
-
 }

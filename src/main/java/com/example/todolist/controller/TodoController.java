@@ -22,15 +22,21 @@ public class TodoController {
     // 작성
     @PostMapping("/regist")
     public ResponseEntity<TodoEntity> todoRegist(@RequestBody TodoRegistDto todoRegistDto){
-
         todoService.regist(todoRegistDto);
         return ResponseEntity.ok(todoService.regist(todoRegistDto));
 
     }
 
-    // 단건 조회
+    // 최근 게시물 1건건 조회
     @PostMapping("/search")
     public ResponseEntity<TodoEntity> todoSearch(@RequestBody TodoSearchDto todoSearchDto){
+        return ResponseEntity.ok(todoService.search(todoSearchDto));
+    }
+
+
+    // 목록 조회
+    @PostMapping("/")
+    public ResponseEntity<TodoEntity> todoListSearch(@RequestBody TodoSearchDto todoSearchDto){
         return ResponseEntity.ok(todoService.search(todoSearchDto));
     }
 
@@ -38,7 +44,7 @@ public class TodoController {
     // 수정
 
 
-    // 목록 조회
+
 
     // 상태변경
 

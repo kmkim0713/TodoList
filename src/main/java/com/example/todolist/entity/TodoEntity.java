@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Table(name = "TODO")
@@ -27,15 +29,19 @@ public class TodoEntity {
     @Column(nullable = false, name = "content")
     private String content;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private LocalDateTime updatedAt;
+
     @Builder
     public TodoEntity(String status, String content, MemberEntity memberId){
         this.status = status;
         this.content = content;
         this.memberId = memberId;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
-
-
-
-
 
 }
