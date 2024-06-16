@@ -21,17 +21,16 @@ public class TodoController {
 
     // 작성
     @PostMapping("/regist")
-    public ResponseEntity<String> todoRegist(@RequestBody TodoRegistDto todoRegistDto){
+    public ResponseEntity<TodoEntity> todoRegist(@RequestBody TodoRegistDto todoRegistDto){
 
         todoService.regist(todoRegistDto);
-        return null;
+        return ResponseEntity.ok(todoService.regist(todoRegistDto));
 
     }
 
     // 단건 조회
     @PostMapping("/search")
     public ResponseEntity<TodoEntity> todoSearch(@RequestBody TodoSearchDto todoSearchDto){
-
         return ResponseEntity.ok(todoService.search(todoSearchDto));
     }
 
