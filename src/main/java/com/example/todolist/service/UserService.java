@@ -5,6 +5,8 @@ import com.example.todolist.config.BCryptPwdEncoder;
 import com.example.todolist.dao.UserRepository;
 import com.example.todolist.dto.UserJoinDto;
 import com.example.todolist.dto.UserLoginDto;
+import com.example.todolist.dto.UserLoginResponseDto;
+import com.example.todolist.dto.UserWithdrawResponseDto;
 import com.example.todolist.entity.UserEntity;
 import org.springframework.stereotype.Service;
 
@@ -41,15 +43,41 @@ public class UserService {
         return join(userJoinDto);
     }
 
-    public boolean login(UserLoginDto userLoginDto) {
+    public UserLoginResponseDto login(UserLoginDto userLoginDto) {
 
-        UserEntity member = userRepository.getByUserId(userLoginDto.getUserId());
-        return bCryptPwdEncoder.matches(userLoginDto.getUserPassword(), member.getUserPassword());
+        UserEntity user = userRepository.getByUserId(userLoginDto.getUserId());
 
+        if(user == null){
+            return UserLoginResponseDto.builder()
+                    .status("fail")
+                    .build();
+        }
+
+        if(bCryptPwdEncoder.matches(userLoginDto.getUserPassword(), user.getUserPassword())){
+            return UserLoginResponseDto.builder()
+                    .userId(user.getUserId())
+                    .status("success")
+                    .build();
+        } else {
+            return UserLoginResponseDto.builder()
+                    .userId(user.getUserId())
+                    .status("fail")
+                    .build();
+        }
     }
 
-    public long withdraw(UserLoginDto userLoginDto) {
+    public UserWithdrawResponseDto withdraw(UserLoginDto userLoginDto) {
 
-        return userRepository.deleteByUserId(userLoginDto.getUserId());
+        Long result = userRepository.deleteByUserId(userLoginDto.getUserId());
+
+        if(result > 0){
+            return UserWithdrawResponseDto.builder()
+                    .status("success")
+                    .build();
+        }
+
+        return UserWithdrawResponseDto.builder()
+                .status("fail")
+                .build();
     }
 }

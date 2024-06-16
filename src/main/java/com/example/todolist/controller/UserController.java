@@ -2,6 +2,8 @@ package com.example.todolist.controller;
 
 import com.example.todolist.dto.UserJoinDto;
 import com.example.todolist.dto.UserLoginDto;
+import com.example.todolist.dto.UserLoginResponseDto;
+import com.example.todolist.dto.UserWithdrawResponseDto;
 import com.example.todolist.entity.UserEntity;
 import com.example.todolist.service.UserService;
 import jakarta.validation.Valid;
@@ -29,30 +31,33 @@ public class UserController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid UserLoginDto userLoginDto) {
-        boolean loginSuccessFlag = userService.login(userLoginDto);
+    public ResponseEntity<UserLoginResponseDto> login(@RequestBody @Valid UserLoginDto userLoginDto) {
+        UserLoginResponseDto userLoginResponseDto = userService.login(userLoginDto);
 
-        if (loginSuccessFlag) {
-            return ResponseEntity.ok("로그인 성공");
+        if (userLoginResponseDto.getStatus().equals("success")) {
+            return ResponseEntity.ok(userLoginResponseDto);
         } else {
-            return ResponseEntity.badRequest().body("로그인 실패");
+            return ResponseEntity.badRequest().body(userLoginResponseDto);
         }
     }
 
 
     // 탈퇴
     @PostMapping("/withdraw")
-    public ResponseEntity<String> withdraw(@RequestBody @Valid UserLoginDto userLoginDto) {
-        boolean loginSuccessFlag = userService.login(userLoginDto);
+    public ResponseEntity<UserWithdrawResponseDto> withdraw(@RequestBody @Valid UserLoginDto userLoginDto) {
+        UserLoginResponseDto userLoginResponseDto = userService.login(userLoginDto);
 
-        if (loginSuccessFlag) {
-            if(userService.withdraw(userLoginDto) > 0){
-                return ResponseEntity.ok("탈퇴 성공");
-            } else{
-                return ResponseEntity.badRequest().body("탈퇴 실패");
+        if (userLoginResponseDto.getStatus().equals("success")) {
+
+            UserWithdrawResponseDto userWithdrawResponseDto = userService.withdraw(userLoginDto);
+            if(userWithdrawResponseDto.getStatus().equals("success")){
+                return ResponseEntity.ok(userWithdrawResponseDto);
+            } else {
+                return ResponseEntity.badRequest().body(userWithdrawResponseDto);
             }
         } else {
-            return ResponseEntity.badRequest().body("로그인 실패");
+            UserWithdrawResponseDto userWithdrawResponseDto = UserWithdrawResponseDto.builder().status("login fail").build();
+            return ResponseEntity.badRequest().body(userWithdrawResponseDto);
         }
     }
 
