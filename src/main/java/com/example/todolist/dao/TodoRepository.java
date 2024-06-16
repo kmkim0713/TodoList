@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TodoRepository  extends JpaRepository<TodoEntity,Long> {
 
@@ -15,4 +14,6 @@ public interface TodoRepository  extends JpaRepository<TodoEntity,Long> {
     List<TodoEntity> findByUserIdx(@Param("userIdx") Long userIdx, Pageable pageable);
 
 
+    @Query("SELECT t FROM TodoEntity t WHERE t.todoIdx = :todoIdx AND t.userIdx.userIdx = :userIdx")
+    TodoEntity findByTodoIdxAndUserIdx(@Param("todoIdx") Long todoIdx, @Param("userIdx") Long userIdx);
 }

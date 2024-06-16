@@ -1,6 +1,7 @@
 package com.example.todolist.service;
 
 
+import com.example.todolist.dto.TodoUpdateDto;
 import com.example.todolist.dao.UserRepository;
 import com.example.todolist.dao.TodoRepository;
 import com.example.todolist.dto.TodoLatestSearchResponseDto;
@@ -9,6 +10,7 @@ import com.example.todolist.dto.TodoLatestSearchDto;
 import com.example.todolist.dto.TodoRegistResponseDto;
 import com.example.todolist.entity.UserEntity;
 import com.example.todolist.entity.TodoEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -89,5 +91,22 @@ public class TodoService {
                             .build();
                 }).collect(Collectors.toList());
 
+    }
+
+    @Transactional
+    public boolean updateStatus(TodoUpdateDto todoUpdateDto) {
+
+        TodoEntity todoEntity = todoRepository.findByTodoIdxAndUserIdx(todoUpdateDto.getTodoIdx(), todoUpdateDto.getUserIdx());
+
+        if(todoEntity != null){
+
+            if(todoEntity.validStatus(todoUpdateDto.getStatus())){
+                todoEntity.updateStatus(todoUpdateDto.getStatus());
+                todoRepository.save(todoEntity);
+                return true;
+            }
+
+        }
+        return false;
     }
 }

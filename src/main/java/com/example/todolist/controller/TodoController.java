@@ -1,10 +1,7 @@
 package com.example.todolist.controller;
 
 
-import com.example.todolist.dto.TodoLatestSearchResponseDto;
-import com.example.todolist.dto.TodoRegistDto;
-import com.example.todolist.dto.TodoLatestSearchDto;
-import com.example.todolist.dto.TodoRegistResponseDto;
+import com.example.todolist.dto.*;
 import com.example.todolist.service.TodoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,13 +36,18 @@ public class TodoController {
         return ResponseEntity.ok(todoService.searchList(todoLatestSearchDto, 10));
     }
 
-    // 수정
-    @PostMapping("/update")
-    p
-
-
-
-
     // 상태변경
+    @PostMapping("/update")
+    public ResponseEntity<String> todoUpdateStatus(@RequestBody TodoUpdateDto todoUpdateDto){
+
+        if(todoService.updateStatus(todoUpdateDto)){
+            return ResponseEntity.ok("수정 완료");
+        }
+        return ResponseEntity.badRequest().body("수정 실패");
+    }
+
+
+
+
 
 }

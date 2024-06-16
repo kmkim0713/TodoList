@@ -44,4 +44,25 @@ public class TodoEntity {
         this.updatedAt = LocalDateTime.now();
     }
 
+
+    public boolean validStatus(String changeStatus) {
+
+        // 진행 중 상태에서만 대기 상태 변경
+        if (changeStatus.equals("IN PROGRESS") && this.status.equals("PENDING")) {
+            return true;
+        }
+
+        // 대기 상태에서는 모든 상태 변경 가능
+        if (this.status.equals("PENDING")) {
+            return true;
+        }
+
+        return changeStatus.equals("TODO") || changeStatus.equals("IN PROGRESS") ||
+                changeStatus.equals("DONE") || changeStatus.equals("PENDING");
+
+    }
+
+    public void updateStatus(String status) {
+        this.status = status;
+    }
 }
